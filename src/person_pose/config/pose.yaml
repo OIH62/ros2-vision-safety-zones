@@ -1,0 +1,13 @@
+person_pose_publisher:
+  ros__parameters:
+    color_topic: /camera/color/image_raw
+    keypoints_topic: /person/keypoints
+    image_size: 256
+    # 0.0 selects gpu_process_fps or cpu_process_fps automatically.
+    process_fps: 0.0
+    gpu_process_fps: 15.0
+    cpu_process_fps: 3.0
+    detection_confidence: 0.45
+    selection_keypoint_confidence: 0.25
+    device: auto
+    allow_cpu_fallback: true

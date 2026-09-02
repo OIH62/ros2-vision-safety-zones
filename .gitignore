@@ -1,0 +1,17 @@
+build/
+install/
+log/
+
+.vscode/
+
+__pycache__/
+*.pyc
+*.log
+*.bak
+*.egg-info/
+/astra_person_zone_*.zip
+.venv/
+.pytest_cache/
+.coverage
+models/*.pt
+!models/README.md

@@ -1,0 +1,36 @@
+person_zone_node:
+  ros__parameters:
+    keypoints_topic: /person/keypoints
+    depth_topic: /camera/depth/image_raw
+    camera_info_topic: /camera/depth/camera_info
+    state_topic: /person_zone_state
+    position_topic: /person_position
+    exit_direction_topic: /person_exit_direction
+    edge_warning_topic: /person_edge_warning
+    exit_event_topic: /person_exit_event
+    diagnostics_topic: /person_zone/diagnostics
+    keypoint_confidence: 0.25
+    enter_ratio: 0.60
+    keep_ratio: 0.45
+    transition_margin: 0.15
+    boundary_margin_px: 10
+    confirm_frames: 4
+    lost_person_frames: 20
+    exit_left_ratio: 0.15
+    exit_right_ratio: 0.15
+    exit_top_ratio: 0.15
+    exit_bottom_ratio: 0.15
+    enabled_exit_directions: [LEFT]
+    auto_clear_warning: true
+    warning_clear_frames: 5
+    require_same_person_to_clear: false
+    reid_max_normalized_distance: 0.35
+    stale_timeout_sec: 1.0
+    # Empty disables CSV writes. Set an absolute path in deployment if needed.
+    event_history_path: ""
+    min_depth_mm: 600
+    max_depth_mm: 5000
+    depth_offset_x: -7
+    depth_offset_y: 7
+    depth_patch_radius: 7
+    flip_depth: false

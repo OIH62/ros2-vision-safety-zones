@@ -1,4 +1,6 @@
-# LeTMC-520 화면 3분할 안전 테스트
+# Tri-Zone Sentinel
+
+ROS2 비전 기반 화면 3분할 사람 안전 테스트
 
 LeTMC-520(Astra Pro)의 RGB/Depth 영상을 받아 사람의 관절 위치를 기준으로
 화면을 `LEFT / CENTER / RIGHT` 세 구역으로 판정하는 ROS2 프로젝트입니다.
@@ -21,8 +23,8 @@ LeTMC-520(Astra Pro)의 RGB/Depth 영상을 받아 사람의 관절 위치를 �
 ## 설치와 실행
 
 ```bash
-git clone https://github.com/OIH62/letmc-person-zone-ros2.git
-cd letmc-person-zone-ros2
+git clone https://github.com/OIH62/ros2-vision-safety-zones.git
+cd ros2-vision-safety-zones
 export ROS_DISTRO=humble  # ROS2가 여러 버전 설치된 경우만 지정
 ./setup.sh
 ```

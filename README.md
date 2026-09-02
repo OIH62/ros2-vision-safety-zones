@@ -1,4 +1,6 @@
-# LeTMC Person Zone for ROS 2
+# Tri-Zone Sentinel
+
+Portable ROS 2 vision safety zones for people detection.
 
 Camera-driver-independent ROS 2 packages for a three-way `LEFT / CENTER / RIGHT`
 person safety test. The reference hardware is the LeTMC-520 (Astra Pro), but the
@@ -63,8 +65,8 @@ Requirements:
 ## Quick start
 
 ```bash
-git clone https://github.com/OIH62/letmc-person-zone-ros2.git
-cd letmc-person-zone-ros2
+git clone https://github.com/OIH62/ros2-vision-safety-zones.git
+cd ros2-vision-safety-zones
 
 # Needed only when several ROS distros are installed.
 export ROS_DISTRO=jazzy

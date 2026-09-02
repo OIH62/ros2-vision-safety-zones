@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.10)
 project(person_zone_cpp)
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -23,7 +23,25 @@ target_include_directories(
 add_executable(person_zone_node src/person_zone_node.cpp)
 target_compile_features(person_zone_node PUBLIC cxx_std_17)
 target_link_libraries(person_zone_node person_zone_core)
-ament_target_dependencies(person_zone_node rclcpp std_msgs sensor_msgs geometry_msgs std_srvs person_pose_msgs)
+if(COMMAND ament_target_dependencies)
+  # Humble through Kilted.
+  ament_target_dependencies(
+    person_zone_node
+    rclcpp std_msgs sensor_msgs geometry_msgs std_srvs person_pose_msgs
+  )
+else()
+  # Lyrical and Rolling removed ament_target_dependencies in favor of
+  # standard CMake imported targets.
+  target_link_libraries(
+    person_zone_node
+    rclcpp::rclcpp
+    ${std_msgs_TARGETS}
+    ${sensor_msgs_TARGETS}
+    ${geometry_msgs_TARGETS}
+    ${std_srvs_TARGETS}
+    ${person_pose_msgs_TARGETS}
+  )
+endif()
 install(
   TARGETS person_zone_core person_zone_node
   EXPORT person_zone_core_targets

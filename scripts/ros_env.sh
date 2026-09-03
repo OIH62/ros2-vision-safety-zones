@@ -2,14 +2,33 @@
 
 # Source a ROS 2 installation without pinning this project to a distribution.
 # If multiple distros are installed, ROS_DISTRO must identify the desired one.
+source_ros_file() {
+  local setup_file="$1"
+  local restore_nounset=false
+
+  case $- in
+    *u*)
+      restore_nounset=true
+      set +u
+      ;;
+  esac
+
+  # ROS and colcon generated setup files are not safe under `set -u`.
+  # shellcheck disable=SC1090
+  source "$setup_file"
+
+  if [ "$restore_nounset" = true ]; then
+    set -u
+  fi
+}
+
 source_ros2() {
   if command -v ros2 >/dev/null 2>&1 && [ -n "${ROS_DISTRO:-}" ]; then
     return 0
   fi
 
   if [ -n "${ROS_DISTRO:-}" ] && [ -f "/opt/ros/${ROS_DISTRO}/setup.bash" ]; then
-    # shellcheck disable=SC1090
-    source "/opt/ros/${ROS_DISTRO}/setup.bash"
+    source_ros_file "/opt/ros/${ROS_DISTRO}/setup.bash"
     return 0
   fi
 
@@ -20,8 +39,7 @@ source_ros2() {
   done
 
   if [ "${#setups[@]}" -eq 1 ]; then
-    # shellcheck disable=SC1090
-    source "${setups[0]}"
+    source_ros_file "${setups[0]}"
     return 0
   fi
 

@@ -5,8 +5,7 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=scripts/ros_env.sh
 source "$PROJECT_DIR/scripts/ros_env.sh"
 source_ros2
-# shellcheck disable=SC1091
-source "$PROJECT_DIR/install/setup.bash"
+source_ros_file "$PROJECT_DIR/install/setup.bash"
 
 echo "=== Person Zone 실행 상태 ==="
 

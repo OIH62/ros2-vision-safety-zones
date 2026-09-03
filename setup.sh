@@ -22,9 +22,15 @@ if [ ! -x "$ROS_PYTHON" ]; then
   exit 1
 fi
 
-if [ ! -d .venv ]; then
-  echo "Creating a ROS-aware Python virtual environment..."
-  "$ROS_PYTHON" -m venv --system-site-packages .venv
+if [ ! -f .venv/bin/activate ]; then
+  venv_args=(--system-site-packages)
+  if [ -d .venv ]; then
+    echo "Recreating incomplete ROS-aware Python virtual environment..."
+    venv_args+=(--clear)
+  else
+    echo "Creating a ROS-aware Python virtual environment..."
+  fi
+  "$ROS_PYTHON" -m venv "${venv_args[@]}" .venv
 fi
 # shellcheck disable=SC1091
 source .venv/bin/activate
@@ -37,7 +43,7 @@ echo "Installing ROS dependencies for ROS_DISTRO=${ROS_DISTRO}..."
 rosdep install --from-paths src --ignore-src -r -y --rosdistro "$ROS_DISTRO"
 
 echo "Building workspace..."
-colcon build --symlink-install --cmake-args \
+python -m colcon build --symlink-install --cmake-args \
   -DCMAKE_BUILD_TYPE=Release \
   "-DPython3_EXECUTABLE=$PROJECT_DIR/.venv/bin/python"
 

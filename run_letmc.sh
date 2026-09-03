@@ -10,7 +10,6 @@ if [ ! -f "$PROJECT_DIR/install/setup.bash" ]; then
   echo "ERROR: Workspace is not built. Run ./setup.sh first." >&2
   exit 1
 fi
-# shellcheck disable=SC1091
-source "$PROJECT_DIR/install/setup.bash"
+source_ros_file "$PROJECT_DIR/install/setup.bash"
 
 ros2 launch person_zone_cpp pipeline.launch.py "$@"

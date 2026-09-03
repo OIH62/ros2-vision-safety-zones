@@ -42,7 +42,8 @@ export ROS_DISTRO=jazzy  # Ubuntu 24.04; Ubuntu 22.04는 humble
 
 Ubuntu 24.04/Jazzy에서 Astra Pro RGB로 확인하는 전체 명령, RViz2 설정, venv와
 `torch` 문제 해결 방법은 [Jazzy 실기 가이드](docs/UBUNTU_JAZZY.md)에 정리돼
-있습니다. 같은 스크립트 수정은 Humble 이후 모든 CI 배포판에 적용됩니다.
+있습니다. `python3-venv`가 빠졌지만 시스템 `python3-pip`가 있는 환경도 setup이
+자동 처리하며, 같은 스크립트 수정은 Humble 이후 모든 CI 배포판에 적용됩니다.
 
 LeTMC 카메라 드라이버를 먼저 실행한 다음:
 

@@ -79,7 +79,8 @@ cd ros2-vision-safety-zones
 See the [Ubuntu 24.04 / Jazzy field guide](docs/UBUNTU_JAZZY.md) for the
 verified Astra Pro RGB smoke test, RViz2 setup, and fixes for incomplete venv,
 Python entry-point, and `set -u`/colcon environment failures. The script fixes
-are distribution-independent and CI checks Humble through Rolling.
+are distribution-independent, can fall back to system pip when ensurepip is
+unavailable, and CI checks Humble through Rolling.
 
 Start your camera driver, then run the portable pipeline:
 

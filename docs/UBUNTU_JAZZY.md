@@ -29,9 +29,9 @@ Humble에서는 `ROS_DISTRO=humble`만 바꿉니다. ROS 설치가 하나뿐이�
 스크립트가 자동으로 찾지만, 여러 버전이 있으면 항상 명시하는 편이 안전합니다.
 
 `python3 -m venv`가 `No module named ensurepip`로 실패하면 Ubuntu의
-`python3-venv`가 빠진 것입니다. 패키지를 설치하고 `./setup.sh`를 다시
-실행하세요. 최신 setup은 이전 실패가 남긴 불완전한 `.venv`를 자동으로
-재생성합니다.
+`python3-venv`가 빠진 것입니다. 패키지를 설치하는 것이 권장 방법입니다. 최신
+setup은 시스템 `python3-pip`가 있으면 `--without-pip` 방식으로 자동 재시도하고,
+이전 실패가 남긴 불완전한 `.venv`도 자동으로 재생성합니다.
 
 ## 2. 프로젝트 설치와 빌드
 
@@ -145,12 +145,27 @@ OK|device=cpu|cpu_fallback=false
 ### `.venv/bin/activate`가 없음
 
 이전 setup 실패가 만든 불완전한 `.venv`입니다. 최신 코드를 pull하고 다시
-실행하면 자동 재생성합니다.
+실행하면 자동 재생성합니다. `python3-venv`가 없더라도 시스템 `python3-pip`가
+설치되어 있으면 setup이 `--without-pip` 방식으로 자동 재시도합니다.
 
 ```bash
 git pull --ff-only
 ./setup.sh
 ```
+
+### `ensurepip` 오류를 무시해도 되는가?
+
+오류만 보고 그대로 진행하면 안 됩니다. 표준 `venv` 생성이 중단되어 불완전한
+`.venv`가 남기 때문입니다. 다음 중 하나가 확인되어야 합니다.
+
+- `sudo apt install python3-venv` 후 `./setup.sh`를 다시 실행해 정상 생성한다.
+- 최신 `setup.sh`가 `WARN: ensurepip is unavailable; retrying with the system pip...`
+  을 출력한 뒤 `Build complete for ROS 2 ...`까지 완료되는지 확인한다.
+
+두 번째 경우에는 `--without-pip`로 환경을 다시 만들고 시스템 `python3-pip`를
+통해 가상환경 전용 pip를 설치하므로, 최초의 ensurepip 메시지는 무시해도 됩니다.
+이 fallback까지 실패하면 setup은 성공으로 처리하지 않고 설치할 패키지를 안내한
+뒤 종료합니다.
 
 ### 실행할 때 `No module named torch`
 

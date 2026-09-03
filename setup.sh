@@ -30,7 +30,15 @@ if [ ! -f .venv/bin/activate ]; then
   else
     echo "Creating a ROS-aware Python virtual environment..."
   fi
-  "$ROS_PYTHON" -m venv "${venv_args[@]}" .venv
+  if ! "$ROS_PYTHON" -m venv "${venv_args[@]}" .venv; then
+    echo "WARN: ensurepip is unavailable; retrying with the system pip..." >&2
+    "$ROS_PYTHON" -m venv --clear --system-site-packages --without-pip .venv
+    if ! .venv/bin/python -m pip --version >/dev/null 2>&1; then
+      echo "ERROR: Python pip is unavailable." >&2
+      echo "Install python3-pip (and preferably python3-venv), then rerun ./setup.sh." >&2
+      exit 1
+    fi
+  fi
 fi
 # shellcheck disable=SC1091
 source .venv/bin/activate

@@ -57,7 +57,7 @@ integrator because LeTMC/Astra drivers and SDK binaries vary by platform.
 Requirements:
 
 - a working ROS 2 installation, `colcon`, and `rosdep`
-- Python 3 with `venv`
+- Python 3 with `venv` and `pip` (`python3-venv`, `python3-pip` on Ubuntu)
 - an RGB topic (`sensor_msgs/msg/Image`)
 - optional aligned depth image and camera info for XYZ
 - a LeTMC-520/Astra driver only when using that camera
@@ -65,13 +65,21 @@ Requirements:
 ## Quick start
 
 ```bash
+export ROS_DISTRO=jazzy  # Ubuntu 24.04; use humble on Ubuntu 22.04
+sudo apt update
+sudo apt install -y \
+  python3-venv python3-pip python3-colcon-common-extensions python3-rosdep
+rosdep update
+
 git clone https://github.com/OIH62/ros2-vision-safety-zones.git
 cd ros2-vision-safety-zones
-
-# Needed only when several ROS distros are installed.
-export ROS_DISTRO=jazzy
 ./setup.sh
 ```
+
+See the [Ubuntu 24.04 / Jazzy field guide](docs/UBUNTU_JAZZY.md) for the
+verified Astra Pro RGB smoke test, RViz2 setup, and fixes for incomplete venv,
+Python entry-point, and `set -u`/colcon environment failures. The script fixes
+are distribution-independent and CI checks Humble through Rolling.
 
 Start your camera driver, then run the portable pipeline:
 

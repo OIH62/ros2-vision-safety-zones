@@ -22,12 +22,27 @@ LeTMC-520(Astra Pro)의 RGB/Depth 영상을 받아 사람의 관절 위치를 �
 
 ## 설치와 실행
 
+Ubuntu에서는 먼저 Python 가상환경과 ROS 빌드 도구를 설치합니다. Ubuntu
+22.04는 Humble, Ubuntu 24.04는 Jazzy를 권장합니다.
+
+```bash
+export ROS_DISTRO=jazzy
+sudo apt update
+sudo apt install -y \
+  python3-venv python3-pip python3-colcon-common-extensions python3-rosdep
+rosdep update
+```
+
 ```bash
 git clone https://github.com/OIH62/ros2-vision-safety-zones.git
 cd ros2-vision-safety-zones
-export ROS_DISTRO=humble  # ROS2가 여러 버전 설치된 경우만 지정
+export ROS_DISTRO=jazzy  # Ubuntu 24.04; Ubuntu 22.04는 humble
 ./setup.sh
 ```
+
+Ubuntu 24.04/Jazzy에서 Astra Pro RGB로 확인하는 전체 명령, RViz2 설정, venv와
+`torch` 문제 해결 방법은 [Jazzy 실기 가이드](docs/UBUNTU_JAZZY.md)에 정리돼
+있습니다. 같은 스크립트 수정은 Humble 이후 모든 CI 배포판에 적용됩니다.
 
 LeTMC 카메라 드라이버를 먼저 실행한 다음:
 

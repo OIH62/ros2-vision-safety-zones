@@ -45,17 +45,26 @@ fi
 echo
 echo "=== 디버그 영상 및 Zone 상태 모니터링 시작 ==="
 
-# 디버그 영상 보기
-# person_zone_debug 노드는 run_letmc.sh의 통합 launch에서 한 번만 실행한다.
-ros2 run image_view image_view \
-  --ros-args \
-  -r image:=/person_zone/debug_image &
-
-VIEW_PID=$!
+# 디버그 영상 보기. RViz2가 있으면 저장소의 Best Effort 설정을 사용하고,
+# 최소 ROS 설치에서는 image_view가 있을 때만 대체 뷰어로 사용한다.
+VIEW_PID=""
+if command -v rviz2 >/dev/null 2>&1; then
+  rviz2 -d "$PROJECT_DIR/config/person_zone.rviz" &
+  VIEW_PID=$!
+elif ros2 pkg prefix image_view >/dev/null 2>&1; then
+  ros2 run image_view image_view \
+    --ros-args \
+    -r image:=/person_zone/debug_image &
+  VIEW_PID=$!
+else
+  echo "[WARN] RViz2/image_view가 없어 텍스트 모니터만 시작합니다."
+fi
 
 # 이 스크립트가 시작한 프로세스만 종료한다.
 cleanup() {
-  kill "$VIEW_PID" 2>/dev/null
+  if [ -n "$VIEW_PID" ]; then
+    kill "$VIEW_PID" 2>/dev/null || true
+  fi
 }
 trap cleanup EXIT
 

@@ -32,7 +32,7 @@ jobs:
           apt-get update
           apt-get install -y --no-install-recommends \
             python3-colcon-common-extensions python3-pip python3-pytest \
-            python3-rosdep
+            python3-rosdep python3-venv
           rosdep update
           source "/opt/ros/${ROS_DISTRO}/setup.bash"
           rosdep install --from-paths src --ignore-src -r -y \
@@ -41,7 +41,29 @@ jobs:
         shell: bash
         run: |
           source "/opt/ros/${ROS_DISTRO}/setup.bash"
-          colcon build --event-handlers console_direct+
+          python3 -m colcon build --event-handlers console_direct+
+      - name: Validate runtime environment
+        shell: bash
+        run: |
+          source "/opt/ros/${ROS_DISTRO}/setup.bash"
+          bash -n setup.sh run_letmc.sh monitor_state.sh monitor_xyz.sh \
+            scripts/ros_env.sh
+          bash -u -c '
+            source scripts/ros_env.sh
+            source_ros_file "$PWD/install/setup.bash"
+            case $- in
+              *u*) ;;
+              *) echo "nounset was not restored" >&2; exit 1 ;;
+            esac
+            ros2 pkg prefix person_pose
+            ros2 pkg prefix person_zone_cpp
+          '
+          entrypoint=install/person_pose/lib/person_pose/pose_publisher
+          entrypoint_python="$(head -n 1 "$entrypoint" | sed 's/^#!//')"
+          test "$(readlink -f "$entrypoint_python")" = \
+            "$(readlink -f "$(command -v python3)")"
+          rosdep check --from-paths src --ignore-src \
+            --rosdistro "${ROS_DISTRO}"
       - name: Test
         shell: bash
         run: |

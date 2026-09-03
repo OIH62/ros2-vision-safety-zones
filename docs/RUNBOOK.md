@@ -1,5 +1,8 @@
 # 실행 및 운영 가이드
 
+Ubuntu 24.04/Jazzy의 최초 설치부터 Astra Pro RGB 실기 확인까지는
+[Jazzy 실기 가이드](UBUNTU_JAZZY.md)를 먼저 참조하세요.
+
 ## 시작 순서
 
 카메라 드라이버를 먼저 실행해 RGB 토픽이 발행되는지 확인합니다.
@@ -103,6 +106,11 @@ RViz2에서 debug image를 볼 때도 Best Effort/depth 1을 권장합니다.
 ```bash
 ROS_PYTHON_EXECUTABLE=/path/to/ros/python ./setup.sh
 ```
+
+설치 후 `install/person_pose/lib/person_pose/pose_publisher`의 첫 줄은 선택한
+가상환경 Python을 가리켜야 합니다. `/usr/bin/python3`을 가리키며 실행 시
+`No module named torch`가 나오면 최신 코드를 pull한 뒤 `./setup.sh`로 다시
+빌드합니다.
 
 ## 카메라 창이 뜨지 않을 때
 
